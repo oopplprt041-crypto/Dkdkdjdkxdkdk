@@ -118,7 +118,7 @@ createButton("👉👌 ESPวานลิต", function()
 end, UIGradient)
 
 createButton("👉👌 ทะลุวานลิต", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/-/refs/heads/main/Nokip.lua"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/no-clip/refs/heads/main/no-clip.lua"))()
 end, UIGradient)
 
 createButton("👉👌 วาปไปหาวานลิต", function()
