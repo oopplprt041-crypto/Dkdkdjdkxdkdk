@@ -8,7 +8,7 @@ local ToggleButton = Instance.new("TextButton")
 ScreenGui.Parent = game:GetService("CoreGui")
 
 -- MainFrame
-MainFrame.Size = UDim2.new(0, 240, 0, 260)
+MainFrame.Size = UDim2.new(0, 240, 0, 300)
 MainFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
 MainFrame.BackgroundTransparency = 0
 MainFrame.Active = true
@@ -127,6 +127,11 @@ end, UIGradient)
 
 createButton("👉👌โปรบินโง่ๆ", function()
     loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-nameless-admin-15646"))()
+end, UIGradient)
+
+-- ฟังก์ชันที่ห้า (ใส่สคริปต์ตามที่มึงให้มา)
+createButton("👉👌 วิ่งไวหีลิต", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/SERRR/refs/heads/main/speerorkrdkdk.lua"))()
 end, UIGradient)
 
 -- ปุ่มพับ/กาง GUI (อยู่นอก MainFrame)
