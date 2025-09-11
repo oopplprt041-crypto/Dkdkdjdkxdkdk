@@ -1,3 +1,26 @@
+-- ฟังก์ชันเล่นเพลงวน 15 วินาที
+local function playMusic()
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://82114462018373"
+    sound.Volume = 3 -- ปรับเสียงได้
+    sound.Looped = true -- เปิดวน
+    sound.Parent = game:GetService("SoundService")
+
+    sound:Play()
+
+    -- หยุดหลัง 15 วิ
+    task.delay(15, function()
+        if sound and sound.IsPlaying then
+            sound:Stop()
+            sound:Destroy()
+        end
+    end)
+end
+
+-- เรียกใช้ฟังก์ชันตอนรันสคริป
+playMusic()
+
+
 -- Gui หลัก
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
@@ -129,7 +152,7 @@ createButton("👉👌โปรบินโง่ๆ", function()
     loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-nameless-admin-15646"))()
 end, UIGradient)
 
--- ฟังก์ชันที่ห้า (ใส่สคริปต์ตามที่มึงให้มา)
+-- ฟังก์ชันที่ห้า
 createButton("👉👌 วิ่งไวหีลิต", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/SERRR/refs/heads/main/speerorkrdkdk.lua"))()
 end, UIGradient)
