@@ -253,47 +253,47 @@ for i, data in ipairs(buttons) do
 end
 
 ---------------------------------------------------
--- 🔹 Resize Handle (ลากมุมขวาล่างเพื่อปรับขนาด)
+-- 🔹 Animation Show/Hide MainFrame + Blur
 ---------------------------------------------------
-local ResizeHandle = Instance.new("Frame")
-ResizeHandle.Size = UDim2.new(0, 20, 0, 20)
-ResizeHandle.Position = UDim2.new(1, -20, 1, -20)
-ResizeHandle.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-ResizeHandle.BorderSizePixel = 0
-ResizeHandle.Parent = MainFrame
-ResizeHandle.Active = true
+local function showWithAnimation(frame)
+    -- ใส่ Blur
+    local Blur = Instance.new("BlurEffect", game.Lighting)
+    Blur.Size = 0
+    TweenService:Create(Blur, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {Size = 15}):Play()
 
-local UICornerResize = Instance.new("UICorner")
-UICornerResize.CornerRadius = UDim.new(0, 5)
-UICornerResize.Parent = ResizeHandle
+    frame.Visible = true
+    TweenService:Create(frame, TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        BackgroundTransparency = 0,
+        Size = UDim2.new(0, 260, 0, 320)
+    }):Play()
+end
 
-local resizing = false
-local resizeStartPos, resizeStartSize
+local function hideWithAnimation(frame)
+    local tween = TweenService:Create(frame, TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+        BackgroundTransparency = 1,
+        Size = UDim2.new(0, 50, 0, 60)
+    })
+    tween:Play()
+    tween.Completed:Wait()
+    frame.Visible = false
 
-ResizeHandle.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        resizing = true
-        resizeStartPos = input.Position
-        resizeStartSize = MainFrame.Size
-        input.Changed:Connect(function()
-            if input.UserInputState == Enum.UserInputState.End then
-                resizing = false
-            end
+    -- ปิด Blur
+    local blur = game.Lighting:FindFirstChildOfClass("BlurEffect")
+    if blur then
+        TweenService:Create(blur, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {Size = 0}):Play()
+        task.delay(0.5, function()
+            blur:Destroy()
         end)
     end
-end)
+end
 
-UserInputService.InputChanged:Connect(function(input)
-    if resizing and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-        local delta = input.Position - resizeStartPos
-        MainFrame.Size = UDim2.new(
-            resizeStartSize.X.Scale,
-            math.max(200, resizeStartSize.X.Offset + delta.X), -- กำหนดขั้นต่ำ
-            resizeStartSize.Y.Scale,
-            math.max(150, resizeStartSize.Y.Offset + delta.Y)
-        )
+local function toggleGui(frame, state)
+    if state then
+        showWithAnimation(frame)
+    else
+        hideWithAnimation(frame)
     end
-end)
+end
 
 ---------------------------------------------------
 -- 🔹 Smooth Drag
@@ -350,11 +350,11 @@ smoothRainbow(ToggleButton)
 local isOpen = true
 ToggleButton.MouseButton1Click:Connect(function()
     isOpen = not isOpen
-    MainFrame.Visible = isOpen
+    toggleGui(MainFrame, isOpen)
     ToggleButton.Text = isOpen and " ปิดควย" or " เปิดควย"
 end)
 
--- ✅ โชว์ MainFrame ตั้งแต่แรก
+-- ✅ โชว์ MainFrame แบบเต็มตั้งแต่แรก
 MainFrame.Visible = true
 MainFrame.Size = UDim2.new(0, 260, 0, 320)
 MainFrame.BackgroundTransparency = 0
