@@ -3,6 +3,7 @@ task.wait(5)
 
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 local CoreGui = game:GetService("CoreGui")
 
@@ -120,9 +121,9 @@ LoadingFrame:Destroy()
 local MainFrame = Instance.new("Frame")
 MainFrame.Size = UDim2.new(0, 260, 0, 320)
 MainFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
-MainFrame.BackgroundTransparency = 0 -- ✅ เห็นเต็ม
+MainFrame.BackgroundTransparency = 0
 MainFrame.Active = true
-MainFrame.Draggable = true
+MainFrame.Draggable = false -- ใช้ smooth drag แทน
 MainFrame.Visible = false
 MainFrame.Parent = ScreenGui
 smoothRainbow(MainFrame)
@@ -131,6 +132,7 @@ local UICorner2 = Instance.new("UICorner")
 UICorner2.CornerRadius = UDim.new(0,15)
 UICorner2.Parent = MainFrame
 
+-- Shadow
 local Shadow = Instance.new("ImageLabel")
 Shadow.Image = "rbxassetid://1316045217"
 Shadow.ImageColor3 = Color3.fromRGB(0,0,0)
@@ -197,6 +199,21 @@ local function createButton(name, callback, index)
     btn.TextSize = 16
     btn.TextColor3 = Color3.fromRGB(255,255,255)
     btn.Parent = ButtonContainer
+
+    -- Hover effect
+    btn.MouseEnter:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(40,40,40)}):Play()
+    end)
+    btn.MouseLeave:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(20,20,20)}):Play()
+    end)
+
+    -- UIStroke rainbow border
+    local stroke = Instance.new("UIStroke")
+    stroke.Thickness = 2
+    stroke.Parent = btn
+    smoothRainbow(stroke)
+
     smoothRainbow(btn)
     animateClick(btn)
 
@@ -236,33 +253,82 @@ for i, data in ipairs(buttons) do
 end
 
 ---------------------------------------------------
--- 🔹 Animation Show/Hide MainFrame
+-- 🔹 Resize Handle (ลากมุมขวาล่างเพื่อปรับขนาด)
 ---------------------------------------------------
-local function showWithAnimation(frame)
-    frame.Visible = true
-    TweenService:Create(frame, TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-        BackgroundTransparency = 0,
-        Size = UDim2.new(0, 260, 0, 320)
-    }):Play()
-end
+local ResizeHandle = Instance.new("Frame")
+ResizeHandle.Size = UDim2.new(0, 20, 0, 20)
+ResizeHandle.Position = UDim2.new(1, -20, 1, -20)
+ResizeHandle.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+ResizeHandle.BorderSizePixel = 0
+ResizeHandle.Parent = MainFrame
+ResizeHandle.Active = true
 
-local function hideWithAnimation(frame)
-    local tween = TweenService:Create(frame, TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-        BackgroundTransparency = 1,
-        Size = UDim2.new(0, 50, 0, 60)
-    })
-    tween:Play()
-    tween.Completed:Wait()
-    frame.Visible = false
-end
+local UICornerResize = Instance.new("UICorner")
+UICornerResize.CornerRadius = UDim.new(0, 5)
+UICornerResize.Parent = ResizeHandle
 
-local function toggleGui(frame, state)
-    if state then
-        showWithAnimation(frame)
-    else
-        hideWithAnimation(frame)
+local resizing = false
+local resizeStartPos, resizeStartSize
+
+ResizeHandle.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        resizing = true
+        resizeStartPos = input.Position
+        resizeStartSize = MainFrame.Size
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                resizing = false
+            end
+        end)
     end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if resizing and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - resizeStartPos
+        MainFrame.Size = UDim2.new(
+            resizeStartSize.X.Scale,
+            math.max(200, resizeStartSize.X.Offset + delta.X), -- กำหนดขั้นต่ำ
+            resizeStartSize.Y.Scale,
+            math.max(150, resizeStartSize.Y.Offset + delta.Y)
+        )
+    end
+end)
+
+---------------------------------------------------
+-- 🔹 Smooth Drag
+---------------------------------------------------
+local dragging, dragInput, dragStart, startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 end
+
+MainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = MainFrame.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+MainFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        update(input)
+    end
+end)
 
 ---------------------------------------------------
 -- 🔹 Toggle Button
@@ -284,11 +350,11 @@ smoothRainbow(ToggleButton)
 local isOpen = true
 ToggleButton.MouseButton1Click:Connect(function()
     isOpen = not isOpen
-    toggleGui(MainFrame, isOpen)
+    MainFrame.Visible = isOpen
     ToggleButton.Text = isOpen and " ปิดควย" or " เปิดควย"
 end)
 
--- ✅ โชว์ MainFrame แบบเต็มตั้งแต่แรก
+-- ✅ โชว์ MainFrame ตั้งแต่แรก
 MainFrame.Visible = true
 MainFrame.Size = UDim2.new(0, 260, 0, 320)
 MainFrame.BackgroundTransparency = 0
