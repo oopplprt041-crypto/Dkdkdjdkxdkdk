@@ -1,6 +1,3 @@
--- รอ 5 วิ ก่อนเริ่ม
-task.wait(5)
-
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
