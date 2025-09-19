@@ -229,7 +229,7 @@ local function createButton(name, callback, index)
     return btn
 end
 
--- รายชื่อปุ่ม
+-- รายชื่อปุ่ม (6 ฟังก์ชัน)
 local buttons = {
     {"👉👌 ESPวานลิต", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Fifififdjdidjsjwjdj/refs/heads/main/Djdkdkekrkrfkdk.lua"))()
@@ -245,6 +245,9 @@ local buttons = {
     end},
     {"👉👌 วิ่งไวหีลิต", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/SERRR/refs/heads/main/speerorkrdkdk.lua"))()
+    end},
+    {"👉👌 วานลิตติดกำแผง", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Yuygyf/refs/heads/main/Rtfgd.lua"))()
     end}
 }
 
@@ -256,7 +259,6 @@ end
 -- 🔹 Animation Show/Hide MainFrame + Blur
 ---------------------------------------------------
 local function showWithAnimation(frame)
-    -- ใส่ Blur
     local Blur = Instance.new("BlurEffect", game.Lighting)
     Blur.Size = 0
     TweenService:Create(Blur, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {Size = 15}):Play()
@@ -277,7 +279,6 @@ local function hideWithAnimation(frame)
     tween.Completed:Wait()
     frame.Visible = false
 
-    -- ปิด Blur
     local blur = game.Lighting:FindFirstChildOfClass("BlurEffect")
     if blur then
         TweenService:Create(blur, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {Size = 0}):Play()
