@@ -226,7 +226,7 @@ local function createButton(name, callback, index)
     return btn
 end
 
--- รายชื่อปุ่ม (6 ฟังก์ชัน)
+-- รายชื่อปุ่ม (8 ฟังก์ชัน)
 local buttons = {
     {"👉👌 ESPวานลิต", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Fifififdjdidjsjwjdj/refs/heads/main/Djdkdkekrkrfkdk.lua"))()
@@ -245,6 +245,12 @@ local buttons = {
     end},
     {"👉👌 วานลิตติดกำแผง", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Yuygyf/refs/heads/main/Rtfgd.lua"))()
+    end},
+    {"👉👌 ฟรีผัวลิตส่วนตัว", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Dvisivivscis-/refs/heads/main/Djdjdjd.lua"))()
+    end},
+    {"👉👌 วานลิตโคตรแจง", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/H-he-eessdddd/refs/heads/main/Reddedf.lua"))()
     end}
 }
 
