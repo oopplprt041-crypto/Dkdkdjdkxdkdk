@@ -1,3 +1,5 @@
+task.wait(1)
+
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -65,29 +67,36 @@ ScreenGui.Name = "BossGui"
 ScreenGui.Parent = CoreGui
 
 ---------------------------------------------------
--- 🔹 Loading Screen
+-- 🔹 Loading Screen (วุ้บขึ้น-วุ้บลง+FadeOut)
 ---------------------------------------------------
 local LoadingFrame = Instance.new("Frame")
 LoadingFrame.Size = UDim2.new(0, 300, 0, 100)
-LoadingFrame.Position = UDim2.new(0.35, 0, 0.4, 0)
+LoadingFrame.Position = UDim2.new(0.35, 0, 1.2, 0) -- เริ่มล่างจอ
 LoadingFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 LoadingFrame.Parent = ScreenGui
+LoadingFrame.Visible = true
 
 local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(0, 15)
 UICorner.Parent = LoadingFrame
 
+-- ✅ ข้อความชื่อผู้ใช้
 local HelloText = Instance.new("TextLabel")
-HelloText.Size = UDim2.new(1, 0, 0.4, 0)
-HelloText.Position = UDim2.new(0, 0, 0, 5)
+HelloText.Size = UDim2.new(0.95, 0, 0.4, 0)
+HelloText.Position = UDim2.new(0.025, 0, 0, 5)
 HelloText.BackgroundTransparency = 1
-HelloText.Text = "ไอเปรตลิฟผอมกระดูกผี💀🦴"..player.Name
+HelloText.Text = "ไอเปรตลิฟผอมกระดูกผี💀🦴 "..player.Name
 HelloText.Font = Enum.Font.GothamBold
 HelloText.TextSize = 22
 HelloText.TextColor3 = Color3.fromRGB(255, 255, 255)
+HelloText.TextWrapped = true
+HelloText.TextScaled = true
+HelloText.TextXAlignment = Enum.TextXAlignment.Center
+HelloText.TextYAlignment = Enum.TextYAlignment.Center
 HelloText.Parent = LoadingFrame
 smoothRainbow(HelloText)
 
+-- ✅ Progress Bar
 local BarBG = Instance.new("Frame")
 BarBG.Size = UDim2.new(0.9, 0, 0.25, 0)
 BarBG.Position = UDim2.new(0.05, 0, 0.65, 0)
@@ -107,9 +116,37 @@ local BarFillCorner = Instance.new("UICorner")
 BarFillCorner.CornerRadius = UDim.new(0, 10)
 BarFillCorner.Parent = BarFill
 
+-- 🔹 Tween: วุ้บขึ้น
+TweenService:Create(LoadingFrame, TweenInfo.new(0.8, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+    Position = UDim2.new(0.35, 0, 0.4, 0)
+}):Play()
+
+-- 🔹 Tween Bar โหลด
 local tween = TweenService:Create(BarFill, TweenInfo.new(3, Enum.EasingStyle.Linear), {Size = UDim2.new(1,0,1,0)})
 tween:Play()
 tween.Completed:Wait()
+
+-- 🔹 Tween: วุ้บลง + FadeOut + Destroy
+local downTween = TweenService:Create(LoadingFrame, TweenInfo.new(0.8, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+    Position = UDim2.new(0.35, 0, 1.2, 0),
+    BackgroundTransparency = 1
+})
+downTween:Play()
+
+for _, v in pairs(LoadingFrame:GetDescendants()) do
+    if v:IsA("TextLabel") or v:IsA("Frame") then
+        local props = {}
+        if v:IsA("TextLabel") then
+            props.TextTransparency = 1
+        end
+        if v:IsA("Frame") then
+            props.BackgroundTransparency = 1
+        end
+        TweenService:Create(v, TweenInfo.new(0.8, Enum.EasingStyle.Quad), props):Play()
+    end
+end
+
+downTween.Completed:Wait()
 LoadingFrame:Destroy()
 
 ---------------------------------------------------
@@ -120,7 +157,7 @@ MainFrame.Size = UDim2.new(0, 260, 0, 320)
 MainFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
 MainFrame.BackgroundTransparency = 0
 MainFrame.Active = true
-MainFrame.Draggable = false -- ใช้ smooth drag แทน
+MainFrame.Draggable = false
 MainFrame.Visible = false
 MainFrame.Parent = ScreenGui
 smoothRainbow(MainFrame)
@@ -205,7 +242,6 @@ local function createButton(name, callback, index)
         TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(20,20,20)}):Play()
     end)
 
-    -- UIStroke rainbow border
     local stroke = Instance.new("UIStroke")
     stroke.Thickness = 2
     stroke.Parent = btn
@@ -226,8 +262,11 @@ local function createButton(name, callback, index)
     return btn
 end
 
--- รายชื่อปุ่ม (8 ฟังก์ชัน)
+-- รายชื่อปุ่ม (เรียงใหม่)
 local buttons = {
+    {"👉👌👉👌👉👌👉👌👉👌", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Dufufdjdj.lua/refs/heads/main/Djrjrkrkr.lua"))()
+    end},
     {"👉👌 ESPวานลิต", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Fifififdjdidjsjwjdj/refs/heads/main/Djdkdkekrkrfkdk.lua"))()
     end},
@@ -259,21 +298,28 @@ for i, data in ipairs(buttons) do
 end
 
 ---------------------------------------------------
--- 🔹 Animation Show/Hide MainFrame + Blur
+-- 🔹 Animation Show/Hide MainFrame + Blur (กันกดรัว)
 ---------------------------------------------------
+local isAnimating = false
+
 local function showWithAnimation(frame)
+    isAnimating = true
     local Blur = Instance.new("BlurEffect", game.Lighting)
     Blur.Size = 0
     TweenService:Create(Blur, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {Size = 15}):Play()
 
     frame.Visible = true
-    TweenService:Create(frame, TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    local tween = TweenService:Create(frame, TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         BackgroundTransparency = 0,
         Size = UDim2.new(0, 260, 0, 320)
-    }):Play()
+    })
+    tween:Play()
+    tween.Completed:Wait()
+    isAnimating = false
 end
 
 local function hideWithAnimation(frame)
+    isAnimating = true
     local tween = TweenService:Create(frame, TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
         BackgroundTransparency = 1,
         Size = UDim2.new(0, 50, 0, 60)
@@ -289,9 +335,11 @@ local function hideWithAnimation(frame)
             blur:Destroy()
         end)
     end
+    isAnimating = false
 end
 
 local function toggleGui(frame, state)
+    if isAnimating then return end
     if state then
         showWithAnimation(frame)
     else
@@ -353,6 +401,7 @@ smoothRainbow(ToggleButton)
 
 local isOpen = true
 ToggleButton.MouseButton1Click:Connect(function()
+    if isAnimating then return end
     isOpen = not isOpen
     toggleGui(MainFrame, isOpen)
     ToggleButton.Text = isOpen and " ปิดควย" or " เปิดควย"
