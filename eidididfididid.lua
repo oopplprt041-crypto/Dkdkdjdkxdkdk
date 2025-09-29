@@ -264,7 +264,7 @@ end
 
 -- รายชื่อปุ่ม (เรียงใหม่)
 local buttons = {
-    {"👉👌👉👌👉👌👉👌👉👌", function()
+    {"👉👌😎🥲💀🐃👍🐃💸👍✅❤️‍🔥😅😁🐃😅", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Dufufdjdj.lua/refs/heads/main/Djrjrkrkr.lua"))()
     end},
     {"👉👌 ESPวานลิต", function()
