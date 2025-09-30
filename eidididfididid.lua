@@ -1,5 +1,3 @@
-task.wait(1)
-
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -290,6 +288,9 @@ local buttons = {
     end},
     {"👉👌 วานลิตโคตรแจง", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/H-he-eessdddd/refs/heads/main/Reddedf.lua"))()
+    end},
+    {"👉👌 ซื้อวานลิตอัตโนมัติ", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Vusgvsv/refs/heads/main/Dkdkdkdk.lua"))()
     end}
 }
 
