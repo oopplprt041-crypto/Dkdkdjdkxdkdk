@@ -1,5 +1,3 @@
-task.wait(1)
-
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -304,16 +302,12 @@ for i, data in ipairs(buttons) do
 end
 
 ---------------------------------------------------
--- 🔹 Animation Show/Hide MainFrame + Blur (กันกดรัว)
+-- 🔹 Animation Show/Hide MainFrame (ไม่มี Blur)
 ---------------------------------------------------
 local isAnimating = false
 
 local function showWithAnimation(frame)
     isAnimating = true
-    local Blur = Instance.new("BlurEffect", game.Lighting)
-    Blur.Size = 0
-    TweenService:Create(Blur, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {Size = 15}):Play()
-
     frame.Visible = true
     local tween = TweenService:Create(frame, TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         BackgroundTransparency = 0,
@@ -333,14 +327,6 @@ local function hideWithAnimation(frame)
     tween:Play()
     tween.Completed:Wait()
     frame.Visible = false
-
-    local blur = game.Lighting:FindFirstChildOfClass("BlurEffect")
-    if blur then
-        TweenService:Create(blur, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {Size = 0}):Play()
-        task.delay(0.5, function()
-            blur:Destroy()
-        end)
-    end
     isAnimating = false
 end
 
