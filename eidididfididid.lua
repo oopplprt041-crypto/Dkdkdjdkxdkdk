@@ -1,3 +1,5 @@
+task.wait(1)
+
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -291,7 +293,10 @@ local buttons = {
     end},
     {"👉👌 ซื้อวานลิตอัตโนมัติ", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Vusgvsv/refs/heads/main/Dkdkdkdk.lua"))()
-    end}
+    end},
+    {"👉👌 หาผัวลิต", function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/oopplprt041-crypto/Ivdvdviedi/refs/heads/main/Fufufuddj.lua'))()
+     end},
 }
 
 for i, data in ipairs(buttons) do
