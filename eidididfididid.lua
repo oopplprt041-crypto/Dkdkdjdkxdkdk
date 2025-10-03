@@ -295,6 +295,9 @@ local buttons = {
     {"👉👌 หาผัวลิต", function()
         loadstring(game:HttpGet('https://raw.githubusercontent.com/oopplprt041-crypto/Ivdvdviedi/refs/heads/main/Fufufuddj.lua'))()
      end},
+    {"👉👌 ยิงผัวลิตรัวๆ", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Dkdkfkdkqeerrggddfv/refs/heads/main/Axaxaxoaxpaxpqxpq.lua"))()
+     end},
 }
 
 for i, data in ipairs(buttons) do
