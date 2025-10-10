@@ -67,85 +67,6 @@ ScreenGui.Parent = CoreGui
 ---------------------------------------------------
 -- 🔹 Loading Screen (วุ้บขึ้น-วุ้บลง+FadeOut)
 ---------------------------------------------------
-local LoadingFrame = Instance.new("Frame")
-LoadingFrame.Size = UDim2.new(0, 300, 0, 100)
-LoadingFrame.Position = UDim2.new(0.35, 0, 1.2, 0) -- เริ่มล่างจอ
-LoadingFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-LoadingFrame.Parent = ScreenGui
-LoadingFrame.Visible = true
-
-local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0, 15)
-UICorner.Parent = LoadingFrame
-
--- ✅ ข้อความชื่อผู้ใช้
-local HelloText = Instance.new("TextLabel")
-HelloText.Size = UDim2.new(0.95, 0, 0.4, 0)
-HelloText.Position = UDim2.new(0.025, 0, 0, 5)
-HelloText.BackgroundTransparency = 1
-HelloText.Text = "ไอเปรตลิฟผอมกระดูกผี💀🦴 "..player.Name
-HelloText.Font = Enum.Font.GothamBold
-HelloText.TextSize = 22
-HelloText.TextColor3 = Color3.fromRGB(255, 255, 255)
-HelloText.TextWrapped = true
-HelloText.TextScaled = true
-HelloText.TextXAlignment = Enum.TextXAlignment.Center
-HelloText.TextYAlignment = Enum.TextYAlignment.Center
-HelloText.Parent = LoadingFrame
-smoothRainbow(HelloText)
-
--- ✅ Progress Bar
-local BarBG = Instance.new("Frame")
-BarBG.Size = UDim2.new(0.9, 0, 0.25, 0)
-BarBG.Position = UDim2.new(0.05, 0, 0.65, 0)
-BarBG.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-BarBG.Parent = LoadingFrame
-
-local BarCorner = Instance.new("UICorner")
-BarCorner.CornerRadius = UDim.new(0, 10)
-BarCorner.Parent = BarBG
-
-local BarFill = Instance.new("Frame")
-BarFill.Size = UDim2.new(0, 0, 1, 0)
-BarFill.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
-BarFill.Parent = BarBG
-
-local BarFillCorner = Instance.new("UICorner")
-BarFillCorner.CornerRadius = UDim.new(0, 10)
-BarFillCorner.Parent = BarFill
-
--- 🔹 Tween: วุ้บขึ้น
-TweenService:Create(LoadingFrame, TweenInfo.new(0.8, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-    Position = UDim2.new(0.35, 0, 0.4, 0)
-}):Play()
-
--- 🔹 Tween Bar โหลด
-local tween = TweenService:Create(BarFill, TweenInfo.new(3, Enum.EasingStyle.Linear), {Size = UDim2.new(1,0,1,0)})
-tween:Play()
-tween.Completed:Wait()
-
--- 🔹 Tween: วุ้บลง + FadeOut + Destroy
-local downTween = TweenService:Create(LoadingFrame, TweenInfo.new(0.8, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
-    Position = UDim2.new(0.35, 0, 1.2, 0),
-    BackgroundTransparency = 1
-})
-downTween:Play()
-
-for _, v in pairs(LoadingFrame:GetDescendants()) do
-    if v:IsA("TextLabel") or v:IsA("Frame") then
-        local props = {}
-        if v:IsA("TextLabel") then
-            props.TextTransparency = 1
-        end
-        if v:IsA("Frame") then
-            props.BackgroundTransparency = 1
-        end
-        TweenService:Create(v, TweenInfo.new(0.8, Enum.EasingStyle.Quad), props):Play()
-    end
-end
-
-downTween.Completed:Wait()
-LoadingFrame:Destroy()
 
 ---------------------------------------------------
 -- 🔹 GUI หลัก (MainFrame)
@@ -262,10 +183,8 @@ end
 
 -- รายชื่อปุ่ม (เรียงใหม่)
 local buttons = {
-    {"👉👌😎🥲💀🐃👍🐃💸👍✅❤️‍🔥😅😁🐃😅", function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Dufufdjdj.lua/refs/heads/main/Djrjrkrkr.lua"))()
-    end},
-    {"👉👌 ESPวานลิต", function()
+  
+     {"👉👌 ESPวานลิต", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Fifififdjdidjsjwjdj/refs/heads/main/Djdkdkekrkrfkdk.lua"))()
     end},
     {"👉👌 ทะลุวานลิต", function()
