@@ -217,6 +217,9 @@ local buttons = {
     {"👉👌 ยิงผัวลิตรัวๆ", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Dkdkfkdkqeerrggddfv/refs/heads/main/Axaxaxoaxpaxpqxpq.lua"))()
      end},
+    {"👉👌 วาปผัวลิตโหดๆ", function()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Djdjdjfjdjqiwiwiwiwiididfifi/refs/heads/main/Wiwiwueudifufuf.lua"))()
+     end},
 }
 
 for i, data in ipairs(buttons) do
