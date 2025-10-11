@@ -222,6 +222,8 @@ local buttons = {
      end},
     {"👉👌 ควย ", function()
        loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Wassa-aaaaa/refs/heads/main/Ddudusuauauswdtirit.lua"))()
+     end},
+}
 
 for i, data in ipairs(buttons) do
     createButton(data[1], data[2], i)
