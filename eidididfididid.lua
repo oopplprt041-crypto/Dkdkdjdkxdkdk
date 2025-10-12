@@ -63,6 +63,8 @@ end
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "BossGui"
 ScreenGui.Parent = CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+ScreenGui.DisplayOrder = 999999
 
 ---------------------------------------------------
 -- 🔹 Loading Screen (วุ้บขึ้น-วุ้บลง+FadeOut)
@@ -73,13 +75,17 @@ ScreenGui.Parent = CoreGui
 ---------------------------------------------------
 local MainFrame = Instance.new("Frame")
 MainFrame.Size = UDim2.new(0, 260, 0, 320)
-MainFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
 MainFrame.BackgroundTransparency = 0
 MainFrame.Active = true
 MainFrame.Draggable = false
 MainFrame.Visible = false
 MainFrame.Parent = ScreenGui
 smoothRainbow(MainFrame)
+-- ✅ แสดง MainFrame เต็มตรงกลางตั้งแต่แรก
+MainFrame.Visible = true
+MainFrame.Size = UDim2.new(0, 260, 0, 320)
+MainFrame.Position = UDim2.new(0.5, -130, 0.5, -160) -- กลางจอเป๊ะ
+MainFrame.BackgroundTransparency = 0
 
 local UICorner2 = Instance.new("UICorner")
 UICorner2.CornerRadius = UDim.new(0,15)
@@ -107,6 +113,7 @@ TitleBar.Font = Enum.Font.GothamBold
 TitleBar.TextSize = 18
 TitleBar.TextColor3 = Color3.fromRGB(255,255,255)
 TitleBar.Parent = MainFrame
+TitleBar.ZIndex = MainFrame.ZIndex + 1
 smoothRainbow(TitleBar)
 
 local ButtonContainer = Instance.new("ScrollingFrame")
@@ -117,13 +124,18 @@ ButtonContainer.ScrollBarThickness = 6
 ButtonContainer.ScrollBarImageColor3 = Color3.fromRGB(255,255,255)
 ButtonContainer.ScrollBarImageTransparency = 0.3
 ButtonContainer.Parent = MainFrame
+ButtonContainer.ZIndex = MainFrame.ZIndex + 1
 ButtonContainer.AutomaticCanvasSize = Enum.AutomaticSize.Y
+ButtonContainer.CanvasSize = UDim2.new(0, 0, 0, 0)
 
 local UIListLayout = Instance.new("UIListLayout")
 UIListLayout.Parent = ButtonContainer
 UIListLayout.Padding = UDim.new(0, 5)
 UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	ButtonContainer.CanvasSize = UDim2.new(0, 0, 0, UIListLayout.AbsoluteContentSize.Y + 10)
+end)
 
 -- เอฟเฟกต์ปุ่ม
 local function animateClick(btn)
@@ -162,6 +174,7 @@ local function createButton(name, callback, index)
     end)
 
     local stroke = Instance.new("UIStroke")
+    stroke.ZIndex = btn.ZIndex + 1
     stroke.Thickness = 2
     stroke.Parent = btn
     smoothRainbow(stroke)
@@ -178,6 +191,7 @@ local function createButton(name, callback, index)
     end)
 
     btn.MouseButton1Click:Connect(callback)
+    btn.ZIndex = MainFrame.ZIndex + 2
     return btn
 end
 
@@ -307,7 +321,7 @@ end)
 ---------------------------------------------------
 local ToggleButton = Instance.new("TextButton")
 ToggleButton.Size = UDim2.new(0, 120, 0, 40)
-ToggleButton.Position = UDim2.new(0.35, 0, 0.25, 0)
+ToggleButton.Position = UDim2.new(0.05, 0, 0.5, -20)
 ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 ToggleButton.BackgroundTransparency = 0.3
 ToggleButton.Text = " เปิดควย"
@@ -326,8 +340,3 @@ ToggleButton.MouseButton1Click:Connect(function()
     toggleGui(MainFrame, isOpen)
     ToggleButton.Text = isOpen and " ปิดควย" or " เปิดควย"
 end)
-
--- ✅ โชว์ MainFrame แบบเต็มตั้งแต่แรก
-MainFrame.Visible = true
-MainFrame.Size = UDim2.new(0, 260, 0, 320)
-MainFrame.BackgroundTransparency = 0
