@@ -237,6 +237,15 @@ local buttons = {
     {"👉👌 ควย ", function()
        loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Wassa-aaaaa/refs/heads/main/Ddudusuauauswdtirit.lua"))()
      end},
+     {"👉👌 วาปวานลิตโคตรโหด", function()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Sisuxuduxcu/refs/heads/main/Dududu.lua"))()
+      end},
+      {"👉👌 ปลดล็อควานลิต", function()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Dudjddudushsajzjxj/refs/heads/main/EtufsVc.lua"))()
+       end},
+       {"👉👌 วาปไปยัดปากวานลิต", function()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/oopplprt041-crypto/Sjejjwueuruurrururururruru/refs/heads/main/Yyyyyyyyyyyyyy.lua"))()
+       end},
 }
 
 for i, data in ipairs(buttons) do
